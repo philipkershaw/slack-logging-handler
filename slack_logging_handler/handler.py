@@ -12,7 +12,7 @@ import requests
 
 class SlackHandler(logging.Handler):
     def __init__(self, webhook_url, channel = None, username = None, level = logging.NOTSET):
-        super(SlackLogHandler, self).__init__(level)
+        super(SlackHandler, self).__init__(level)
         self._webhook_url = webhook_url
         self._channel = channel
         # If no username was given, use the hostname

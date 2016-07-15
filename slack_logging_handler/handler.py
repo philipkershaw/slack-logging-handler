@@ -40,7 +40,7 @@ class SlackHandler(logging.Handler):
                     {
                         'color' : 'danger',
                         'mrkdwn_in' : ['text'],
-                        'title' : str(exc_info[1]),
+                        'title' : 'Exception traceback',
                         'text' : exc_text,
                     },
                 ]

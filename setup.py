@@ -25,7 +25,7 @@ requires = [
 
 if __name__ == "__main__":
     setup(
-        name = 'slack-logging-handler',
+        name = 'cedadev-slack-logging-handler',
         version = version,
         description = 'Python logging handler that posts to a Slack channel using a webhook',
         long_description = README,

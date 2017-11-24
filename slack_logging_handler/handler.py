@@ -6,12 +6,17 @@ Module containing the Slack logging handler.
 __author__ = "Matt Pryor"
 __copyright__ = "Copyright 2015 UK Science and Technology Facilities Council"
 
-import os, logging
+import os
+import logging
 import requests
 
 
 class SlackHandler(logging.Handler):
-    def __init__(self, webhook_url, channel = None, username = None, level = logging.NOTSET):
+    '''Logging handler to feed log messages to a Slack channel via webhook URL
+    '''
+
+    def __init__(self, webhook_url, channel = None, username = None,
+                 level = logging.NOTSET):
         super(SlackHandler, self).__init__(level)
         self._webhook_url = webhook_url
         self._channel = channel
@@ -20,9 +25,10 @@ class SlackHandler(logging.Handler):
 
     def emit(self, record):
         try:
-            # We want to add any exception info as an attachment rather than as part
-            # of the log message
-            # So we temporarily remove it from the record while we get the message
+            # We want to add any exception info as an attachment rather than as
+            # part of the log message
+            # So we temporarily remove it from the record while we get the
+            # message
             exc_info, exc_text = record.exc_info, record.exc_text
             record.exc_info = record.exc_text = None
             content = { 'text' : self.format(record) }
@@ -35,7 +41,8 @@ class SlackHandler(logging.Handler):
             if record.exc_info:
                 formatter = self.formatter or logging.Formatter()
                 # Wrap the traceback so it is formatted
-                exc_text = '```' + formatter.formatException(record.exc_info) + '```'
+                exc_text = '```' + formatter.formatException(record.exc_info) +\
+                           '```'
                 content['attachments'] = [
                     {
                         'color' : 'danger',
@@ -46,5 +53,5 @@ class SlackHandler(logging.Handler):
                 ]
             # Send the request
             requests.post(self._webhook_url, json = content)
-        except:
+        except Exception:
             self.handleError(record)

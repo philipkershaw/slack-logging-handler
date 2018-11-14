@@ -33,10 +33,12 @@ class SlackHandler(logging.Handler):
             record.exc_info = record.exc_text = None
             content = { 'text' : self.format(record) }
             record.exc_info, record.exc_text = exc_info, exc_text
+            
             # Set username and channel
             content['username'] = self._username
             if self._channel:
                 content['channel'] = self._channel
+                
             # If there is exception information, attach it
             if record.exc_info:
                 formatter = self.formatter or logging.Formatter()
@@ -51,6 +53,20 @@ class SlackHandler(logging.Handler):
                         'text' : exc_text,
                     },
                 ]
+                
+            # Add workaround where caller wants to pass a string from an
+            # exception.  This is done via the extra keyword to 
+            # log.[debug|info|warning|error|exception]
+            elif hasattr(record, 'slack_exception_attachment'):
+                content['attachments'] = [
+                    {
+                        'color' : 'danger',
+                        'mrkdwn_in' : ['text'],
+                        'title' : 'Exception traceback',
+                        'text' : record.slack_exception_attachment,
+                    },
+                ]
+                                
             # Send the request
             requests.post(self._webhook_url, json = content)
         except Exception:

@@ -1,3 +1,12 @@
+#!/usr/bin/env python
+"""Distribution Utilities setup program for Slack Handler package
+
+"""
+__author__ = "Matt Pryor"
+__date__ = "21/11/17"
+__copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
+__license__ = """BSD - See LICENSE file in top-level directory"""
+__contact__ = "Philip.Kershaw@stfc.ac.uk"
 import os, re
 
 from setuptools import setup, find_packages
@@ -37,6 +46,11 @@ if __name__ == "__main__":
         url = 'https://github.com/cedadev/slack-logging-handler',
         keywords = 'logging slack',
         packages = find_packages(),
+        package_data={
+            'slack_logging_handler': [
+                'LICENSE',
+            ],
+        },
         include_package_data = True,
         zip_safe = False,
         install_requires = requires,

@@ -2,10 +2,11 @@
 """
 Module containing the Slack logging handler.
 """
-
 __author__ = "Matt Pryor"
-__copyright__ = "Copyright 2015 UK Science and Technology Facilities Council"
-
+__date__ = "21/11/17"
+__copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
+__license__ = """BSD - See LICENSE file in top-level directory"""
+__author__ = "Matt Pryor"
 import os
 import logging
 import requests
